@@ -8,28 +8,62 @@ using static Constants;
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerController : MonoBehaviour
 {
-    // ÄÄÆ÷³ÍÆ® Ä³½Ì
+    [SerializeField] private Transform headTransform;
+
+    [Header("ì´ë™")] 
+    [SerializeField] [Range(1, 5)] private float breakForce = 1f;
+
+    [SerializeField] private float jumpHeight = 2f;
+    
+    public float BreakForce => breakForce;
+    
+    // ì»´í¬ë„ŒíŠ¸ ìºì‹±
     private Animator _animator;
     private PlayerInput _playerInput;
-
-    // »óÅÂ Á¤º¸
+    private CharacterController _characterController;
+    
+    // ìƒíƒœ ì •ë³´
     public EPlayerState State { get; private set; }
     private Dictionary<EPlayerState, IPlayerState> _states;
+    
+    // ìºë¦­í„° ì´ë™ ì •ë³´
+    private float _velocityY;
 
     private void Awake()
     {
-        // ÄÄÆ÷³ÍÆ® ÃÊ±âÈ­
+        // ì»´í¬ë„ŒíŠ¸ ì´ˆê¸°í™”
         _animator = GetComponent<Animator>();
         _playerInput = GetComponent<PlayerInput>();
-
-        // »óÅÂ °´Ã¼ ÃÊ±âÈ­
-        var playerStateIdle = new PlayerStateIdle(this, _animator);
+        _characterController = GetComponent<CharacterController>();
+        
+        // ìƒíƒœ ê°ì²´ ì´ˆê¸°í™”
+        var playerStateIdle = new PlayerStateIdle(this, _animator, _playerInput);
+        var playerStateMove = new PlayerStateMove(this, _animator, _playerInput);
+        var playerStateJump = new PlayerStateJump(this, _animator, _playerInput);
+        
         _states = new Dictionary<EPlayerState, IPlayerState>
         {
             { EPlayerState.Idle, playerStateIdle },
+            { EPlayerState.Move, playerStateMove },
+            { EPlayerState.Jump, playerStateJump },
         };
-        // »óÅÂ ÃÊ±âÈ­
+        // ìƒíƒœ ì´ˆê¸°í™”
         SetState(EPlayerState.Idle);
+    }
+
+    private void OnEnable()
+    {
+        // ì¹´ë©”ë¼ ì´ˆê¸°í™”
+        _playerInput.camera = Camera.main;
+        if (_playerInput.camera != null)
+        {
+            _playerInput.camera.GetComponent<CameraController>().SetTarget(headTransform, _playerInput);
+        }
+    }
+
+    private void OnDisable()
+    {
+        
     }
 
     private void Update()
@@ -40,12 +74,36 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // »õ·Î¿î »óÅÂ¸¦ ÇÒ´çÇÏ´Â ÇÔ¼ö
+    // ìƒˆë¡œìš´ ìƒíƒœë¥¼ í• ë‹¹í•˜ëŠ” í•¨ìˆ˜
     public void SetState(EPlayerState state)
     {
         if (State == state) return;
         if (State != EPlayerState.None) _states[State].Exit();
         State = state;
         if (State != EPlayerState.None) _states[State].Enter();
+    }
+
+    // ì í”„
+    public void Jump()
+    {
+        if (!_characterController.isGrounded) return;
+        _velocityY = Mathf.Sqrt(jumpHeight * -2f * Gravity);
+    }
+
+    private void OnAnimatorMove()
+    {
+        Vector3 movePosition;
+        if (_characterController.isGrounded)
+        {
+            movePosition = _animator.deltaPosition;            
+        }
+        else
+        {
+            movePosition = _characterController.velocity * Time.deltaTime;
+        }
+        
+        _velocityY += Gravity * Time.deltaTime;
+        movePosition.y = _velocityY * Time.deltaTime;
+        _characterController.Move(movePosition);
     }
 }
