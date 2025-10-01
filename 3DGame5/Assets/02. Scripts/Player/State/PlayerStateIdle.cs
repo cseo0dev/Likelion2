@@ -1,10 +1,8 @@
-
-
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static Constants;
 
-public class PlayerStateIdle: PlayerState, IPlayerState
+public class PlayerStateIdle: PlayerState, ICharacterState
 {
     public PlayerStateIdle(PlayerController playerController, Animator animator, PlayerInput playerInput) 
         : base(playerController, animator, playerInput) { }

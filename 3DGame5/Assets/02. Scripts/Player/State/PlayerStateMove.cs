@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using static Constants;
 
-public class PlayerStateMove: PlayerState, IPlayerState
+public class PlayerStateMove: PlayerState, ICharacterState
 {
     private float _moveSpeed;
     

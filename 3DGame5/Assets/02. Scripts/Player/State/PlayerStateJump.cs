@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 using static Constants;
 using static CharacterUtility;
 
-public class PlayerStateJump: PlayerState, IPlayerState
+public class PlayerStateJump: PlayerState, ICharacterState
 {
     public PlayerStateJump(PlayerController playerController, Animator animator, PlayerInput playerInput) 
         : base(playerController, animator, playerInput) { }
