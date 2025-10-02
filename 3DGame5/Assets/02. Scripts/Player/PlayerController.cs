@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
         var playerStateMove = new PlayerStateMove(this, _animator, _playerInput);
         var playerStateJump = new PlayerStateJump(this, _animator, _playerInput);
         var playerStateAttack = new PlayerStateAttack(this, _animator, _playerInput);
+        var playerStateHit = new PlayerStateHit(this, _animator, _playerInput);
         
         _states = new Dictionary<EPlayerState, ICharacterState>
         {
@@ -48,6 +49,7 @@ public class PlayerController : MonoBehaviour
             { EPlayerState.Move, playerStateMove },
             { EPlayerState.Jump, playerStateJump },
             { EPlayerState.Attack, playerStateAttack },
+            { EPlayerState.Hit, playerStateHit },
         };
         // 상태 초기화
         SetState(EPlayerState.Idle);
@@ -73,6 +75,11 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.Instance.GameState == EGameState.Pause)
+        {
+            SetState(EPlayerState.Idle);
+        }
+
         if (State != EPlayerState.None)
         {
             _states[State].Update();
@@ -93,6 +100,14 @@ public class PlayerController : MonoBehaviour
     {
         if (!_characterController.isGrounded) return;
         _velocityY = Mathf.Sqrt(jumpHeight * -2f * Gravity);
+    }
+
+    // Hit
+    public void SetHit(int damage, Vector3 attackDirection)
+    {
+        SetState(EPlayerState.Hit);
+        _animator.SetFloat(PlayerAniParamHitX, attackDirection.x);
+        _animator.SetFloat(PlayerAniParamHitZ, attackDirection.z);
     }
 
     private void OnAnimatorMove()

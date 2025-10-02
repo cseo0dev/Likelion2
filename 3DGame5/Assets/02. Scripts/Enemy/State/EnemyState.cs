@@ -13,5 +13,4 @@ public class EnemyState
         _animator = animator;
         _navMeshAgent = navMeshAgent;
     }
-
 }
