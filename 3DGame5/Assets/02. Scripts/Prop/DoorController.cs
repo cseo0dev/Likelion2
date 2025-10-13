@@ -28,6 +28,8 @@ public class DoorController : MonoBehaviour
         Vector3 endPosition = startPosition + Vector3.up * distance;
         float elapsedTime = 0f;
 
+        GameManager.Instance.SetGameState(EGameState.Pause);
+
         while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
