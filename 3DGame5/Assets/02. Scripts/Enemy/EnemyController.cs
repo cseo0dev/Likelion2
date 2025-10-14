@@ -20,6 +20,7 @@ public class EnemyController : MonoBehaviour
 
     [Header("Status")]
     [SerializeField] private EnemyStatus enemyStatus;
+    private HPBarController _hpBarController;
 
     [Header("Ragdoll")]
     [SerializeField] private Collider[] ragdollColliders;
@@ -74,6 +75,7 @@ public class EnemyController : MonoBehaviour
         var enemyStateChase = new EnemyStateChase(this, _animator, _navMeshAgent);
         var enemyStateAttack = new EnemyStateAttack(this, _animator, _navMeshAgent);
         var enemyStateHit = new EnemyStateHit(this, _animator, _navMeshAgent);
+        var enemyStateDead = new EnemyStateDead(this, _animator, _navMeshAgent);
 
         _states = new Dictionary<EEnemyState, ICharacterState>
         {
@@ -82,8 +84,12 @@ public class EnemyController : MonoBehaviour
             { EEnemyState.Chase, enemyStateChase },
             { EEnemyState.Attack, enemyStateAttack },
             { EEnemyState.Hit, enemyStateHit },
+            { EEnemyState.Dead, enemyStateDead },
         };
         SetState(EEnemyState.Idle);
+
+        // Hp Bar 할당
+        _hpBarController = GetComponent<HPBarController>();
     }
 
     private void Update()
@@ -110,8 +116,35 @@ public class EnemyController : MonoBehaviour
     // 공격 받았을 때 실행되는 함수
     public void SetHit(int damage, Vector3 attackDirection)
     {
-        SetState(EEnemyState.Hit);
-        StartCoroutine(Knockback(attackDirection));
+        if (_hpBarController)
+        {
+            enemyStatus.hp -= damage;
+            float result = (float) enemyStatus.hp / enemyStatus.maxHp;
+            _hpBarController.SetHp(result);
+
+            if (enemyStatus.hp <= 0)
+            {
+                // 사망
+                SetState(EEnemyState.Dead);
+                _rigidbody.isKinematic = false;
+                _rigidbody.useGravity = true;
+
+                var dir = attackDirection;
+                dir.y = 1f;
+                dir = dir.normalized;
+
+                var force = dir * 10f;
+                _rigidbody.AddForce(force, ForceMode.Impulse);
+
+                _collider.isTrigger = false;
+            }
+            else
+            {
+                // 피격
+                SetState(EEnemyState.Hit);
+                StartCoroutine(Knockback(attackDirection));
+            }
+        }
     }
 
     // 넉백 구현

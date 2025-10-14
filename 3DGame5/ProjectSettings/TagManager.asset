@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Canvas
   - SpawnPoint
+  - Ground
   layers:
   - Default
   - TransparentFX
