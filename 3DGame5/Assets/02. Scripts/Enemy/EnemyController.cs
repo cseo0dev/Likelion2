@@ -18,9 +18,23 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float minimumRunDistance = 1f;
     [SerializeField] private float attackWaitTime = 0f;
 
+    [Header("Status")]
+    [SerializeField] private EnemyStatus enemyStatus;
+
+    [Header("Ragdoll")]
+    [SerializeField] private Collider[] ragdollColliders;
+    [SerializeField] private Rigidbody[] ragdollRigidbodies;
+    [SerializeField] private CharacterJoint[] ragdollJoints;
+
+    [Header("Renderer")]
+    [SerializeField] private Renderer enemyRenderer;
+
     private Animator _animator;
     private NavMeshAgent _navMeshAgent;
     private Transform _targetTransform;
+
+    private Collider _collider;
+    private Rigidbody _rigidbody;
 
     // 상태 관리
     public EEnemyState State { get; private set; }
@@ -39,8 +53,13 @@ public class EnemyController : MonoBehaviour
 
     private void Awake()
     {
+        // Ragdoll 비활성화
+        SetRagdollEnabled(false);
+
         _animator = GetComponent<Animator>();
         _navMeshAgent = GetComponent<NavMeshAgent>();
+        _rigidbody = GetComponent<Rigidbody>();
+        _collider = GetComponent<Collider>();
 
         // 플레이어 정보 초기화
         _targetTransform = null;
@@ -172,4 +191,52 @@ public class EnemyController : MonoBehaviour
             Gizmos.DrawLine(transform.position, _navMeshAgent.destination);
         }
     }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Ground"))
+        {
+            Debug.Log("## Ground");
+            SetRagdollEnabled(true);
+            StartCoroutine(Disolve());
+        }
+    }
+
+    #region Ragdoll 관련 함수
+    private void SetRagdollEnabled(bool isEnabled)
+    {
+        foreach (var ragdollCollider in ragdollColliders)
+        {
+            ragdollCollider.enabled = isEnabled;
+        }
+
+        foreach (var ragdollRigidbody in ragdollRigidbodies)
+        {
+            ragdollRigidbody.isKinematic = !isEnabled;
+            ragdollRigidbody.detectCollisions = isEnabled;
+        }
+
+        _animator.enabled = !isEnabled;
+        _collider.enabled = !isEnabled;
+        _rigidbody.detectCollisions = !isEnabled;
+
+        _animator.Rebind();
+        _animator.Update(0f);
+    }
+
+    IEnumerator Disolve()
+    {
+        var propertyBlock = new MaterialPropertyBlock();
+        enemyRenderer.GetPropertyBlock(propertyBlock);
+        var value = 0f;
+
+        while (value < 1f)
+        {
+            value += Time.deltaTime;
+            propertyBlock.SetFloat("_Cutoff", value);
+            enemyRenderer.SetPropertyBlock(propertyBlock);
+            yield return null;
+        }
+    }
+    #endregion
 }
