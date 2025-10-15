@@ -54,13 +54,13 @@ public class EnemyController : MonoBehaviour
 
     private void Awake()
     {
-        // Ragdoll 비활성화
-        SetRagdollEnabled(false);
-
         _animator = GetComponent<Animator>();
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _rigidbody = GetComponent<Rigidbody>();
         _collider = GetComponent<Collider>();
+
+        // Ragdoll 비활성화
+        SetRagdollEnabled(false);
 
         // 플레이어 정보 초기화
         _targetTransform = null;

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class HPBarController : MonoBehaviour
@@ -10,6 +11,8 @@ public class HPBarController : MonoBehaviour
     private Camera _camera;
     private Vector3 _offset;
 
+    private Coroutine _hideHPBarCoroutine;
+
     void Start()
     {
         _camera = Camera.main;
@@ -17,11 +20,33 @@ public class HPBarController : MonoBehaviour
         _hpBar = Instantiate(hpBarPrefab, _canvas.transform).GetComponent<HPBar>();
         _hpBarRectTransform = _hpBar.GetComponent<RectTransform>();
         _offset = new Vector3(0, 1.5f, 0);
+
+        SetActiveHPBar(false);
     }
 
     public void SetHp(float hp)
     {
         _hpBar.SetHPGauge(hp);
+        SetActiveHPBar(true);
+
+        if (_hideHPBarCoroutine != null )
+        {
+            StopCoroutine(_hideHPBarCoroutine );
+        }
+        _hideHPBarCoroutine = StartCoroutine(HideHPBarAfterDelay(1f));
+    }
+
+    IEnumerator HideHPBarAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        SetActiveHPBar(false);
+
+        _hideHPBarCoroutine = null;
+    }
+
+    public void SetActiveHPBar(bool isActive)
+    {
+        _hpBar.gameObject.SetActive(isActive);
     }
 
     // Enemy의 움직임에 따라 캔버스도 위치 변경되도록 LateUpdate 활용
@@ -33,9 +58,10 @@ public class HPBarController : MonoBehaviour
         bool isVisible = screenPosition.z > 0
             && screenPosition.x > 0 && screenPosition.x < Screen.width
             && screenPosition.y > 0 && screenPosition.y < Screen.height;
-        _hpBar.gameObject.SetActive(isVisible);
 
         if (isVisible)
             _hpBarRectTransform.position = screenPosition;
+        else
+            SetActiveHPBar(false);
     }
 }
