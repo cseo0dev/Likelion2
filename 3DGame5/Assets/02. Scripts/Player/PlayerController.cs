@@ -51,8 +51,6 @@ public class PlayerController : MonoBehaviour
             { EPlayerState.Attack, playerStateAttack },
             { EPlayerState.Hit, playerStateHit },
         };
-        // 상태 초기화
-        SetState(EPlayerState.Idle);
 
         // Cursor 숨기기
         _playerInput.actions["Cursor"].performed += _ => GameManager.Instance.SetCursorLock();
@@ -66,6 +64,9 @@ public class PlayerController : MonoBehaviour
         {
             _playerInput.camera.GetComponent<CameraController>().SetTarget(headTransform, _playerInput);
         }
+
+        // 상태 초기화
+        State = EPlayerState.None;
     }
 
     private void OnDisable()
@@ -75,9 +76,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.Instance.GameState == EGameState.Pause)
+        if (GameManager.Instance.GameState != EGameState.Play)
         {
-            SetState(EPlayerState.Idle);
+            return;
         }
 
         if (State != EPlayerState.None)
@@ -112,6 +113,8 @@ public class PlayerController : MonoBehaviour
 
     private void OnAnimatorMove()
     {
+        if (GameManager.Instance.GameState != EGameState.Play) return;
+
         Vector3 movePosition;
         if (_characterController.isGrounded)
         {
