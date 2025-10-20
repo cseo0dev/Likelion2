@@ -4325,8 +4325,10 @@ GameObject:
   - component: {fileID: 3696321044471063937}
   - component: {fileID: 8242537279307431848}
   - component: {fileID: 8749638307692745903}
+  - component: {fileID: 8252226718564457524}
   - component: {fileID: 277299623507013797}
   - component: {fileID: 5558408281210782598}
+  - component: {fileID: 4294526229724924846}
   m_Layer: 8
   m_Name: Chomper
   m_TagString: Untagged
@@ -4440,6 +4442,7 @@ MonoBehaviour:
   - {fileID: 2772670801627819156}
   - {fileID: 892754288551932918}
   - {fileID: 868154142224028358}
+  enemyRenderer: {fileID: 1523695740658358236}
 --- !u!195 &8749638307692745903
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -4462,6 +4465,33 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!54 &8252226718564457524
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8529659703707648940}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!136 &277299623507013797
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4481,10 +4511,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Radius: 0.4
+  m_Height: 1.2
+  m_Direction: 2
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!114 &5558408281210782598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4503,6 +4533,19 @@ MonoBehaviour:
   targetLayerMask:
     serializedVersion: 2
     m_Bits: 128
+--- !u!114 &4294526229724924846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8529659703707648940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6904897a5e69f5c4fade832199f43dd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HPBarController
+  hpBarPrefab: {fileID: 8800986341368977466, guid: 037e172ec75be6449b353fa3a6ac751d, type: 3}
 --- !u!1 &8764334457302899531
 GameObject:
   m_ObjectHideFlags: 0

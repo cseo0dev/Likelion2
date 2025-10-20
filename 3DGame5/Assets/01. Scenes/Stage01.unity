@@ -1101,7 +1101,7 @@ Transform:
   m_GameObject: {fileID: 287946674}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: -15}
+  m_LocalPosition: {x: 0, y: 0.5, z: 10.73}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6321,11 +6321,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!137 &1581224534 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 1523695740658358236, guid: 07d02996f3f2cc74b9e73b0ea297a620, type: 3}
-  m_PrefabInstance: {fileID: 7923552562311184689}
-  m_PrefabAsset: {fileID: 0}
 --- !u!43 &1615060269
 Mesh:
   m_ObjectHideFlags: 0
@@ -9246,22 +9241,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 277299623507013797, guid: 07d02996f3f2cc74b9e73b0ea297a620, type: 3}
-      propertyPath: m_Height
-      value: 1.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 277299623507013797, guid: 07d02996f3f2cc74b9e73b0ea297a620, type: 3}
-      propertyPath: m_Radius
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 277299623507013797, guid: 07d02996f3f2cc74b9e73b0ea297a620, type: 3}
-      propertyPath: m_Center.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 277299623507013797, guid: 07d02996f3f2cc74b9e73b0ea297a620, type: 3}
-      propertyPath: m_Direction
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 3149923743864402682, guid: 07d02996f3f2cc74b9e73b0ea297a620, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.16
@@ -9272,7 +9251,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3149923743864402682, guid: 07d02996f3f2cc74b9e73b0ea297a620, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.29
+      value: -15.93
       objectReference: {fileID: 0}
     - target: {fileID: 3149923743864402682, guid: 07d02996f3f2cc74b9e73b0ea297a620, type: 3}
       propertyPath: m_LocalRotation.w
@@ -9302,10 +9281,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8242537279307431848, guid: 07d02996f3f2cc74b9e73b0ea297a620, type: 3}
-      propertyPath: enemyRenderer
-      value: 
-      objectReference: {fileID: 1581224534}
     - target: {fileID: 8529659703707648940, guid: 07d02996f3f2cc74b9e73b0ea297a620, type: 3}
       propertyPath: m_Name
       value: Chomper
@@ -9313,59 +9288,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8529659703707648940, guid: 07d02996f3f2cc74b9e73b0ea297a620, type: 3}
-      insertIndex: 4
-      addedObject: {fileID: 7923552562311184691}
-    - targetCorrespondingSourceObject: {fileID: 8529659703707648940, guid: 07d02996f3f2cc74b9e73b0ea297a620, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7923552562311184698}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07d02996f3f2cc74b9e73b0ea297a620, type: 3}
---- !u!1 &7923552562311184690 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8529659703707648940, guid: 07d02996f3f2cc74b9e73b0ea297a620, type: 3}
-  m_PrefabInstance: {fileID: 7923552562311184689}
-  m_PrefabAsset: {fileID: 0}
---- !u!54 &7923552562311184691
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7923552562311184690}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &7923552562311184698
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7923552562311184690}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6904897a5e69f5c4fade832199f43dd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HPBarController
-  hpBarPrefab: {fileID: 8800986341368977466, guid: 037e172ec75be6449b353fa3a6ac751d, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
