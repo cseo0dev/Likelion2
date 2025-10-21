@@ -15,6 +15,11 @@ public class GameManager : Singleton<GameManager>
     private GameObject _player;
     private bool _isCursorLock;
 
+    void Start()
+    {
+        Application.targetFrameRate = 60; // 목표 프레임
+    }
+
     // 커서 고정 기능
     public void SetCursorLock()
     {
@@ -86,6 +91,7 @@ public class GameManager : Singleton<GameManager>
                 break;
             case "Stage01":
             case "Stage02":
+            case "Stage02-1":
                 var spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform;
                 if (_player)
                 {

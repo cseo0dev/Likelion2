@@ -26,14 +26,14 @@ public class RoomManager : MonoBehaviour
                 _instance = FindFirstObjectByType<RoomManager>();
                 if (_instance == null)
                 {
-                    // TODO : 坷幅 贸府
+                    // TODO: 坷幅 贸府
                 }
             }
             return _instance;
         }
     }
 
-    void Awake()
+    private void Awake()
     {
         Room room0 = new Room(0);
         Room room1 = new Room(1);
@@ -43,6 +43,7 @@ public class RoomManager : MonoBehaviour
 
         room0.AddNeighbor(room1);
 
+        room1.AddNeighbor(room0);
         room1.AddNeighbor(room2);
         room1.AddNeighbor(room3);
 
@@ -57,18 +58,18 @@ public class RoomManager : MonoBehaviour
 
         rooms = new Dictionary<int, Room>
         {
-            {0, room0},
-            {1, room1},
-            {2, room2},
-            {3, room3},
-            {4, room4},
+            { 0, room0 },
+            { 1, room1 },
+            { 2, room2 },
+            { 3, room3 },
+            { 4, room4 }
         };
     }
 
-    void Start()
+    private void Start()
     {
         var startRoomId = 0;
-        
+
         var prefab = GetRoomPrefab(startRoomId);
         if (prefab != null)
         {
@@ -82,17 +83,30 @@ public class RoomManager : MonoBehaviour
         var room = rooms[id];
         if (room == null) return;
 
-        foreach(var neighbor in room.Neighbors)
+        foreach (var neighbor in room.Neighbors)
         {
             if (!neighbor.roomInstance)
             {
                 var prefab = GetRoomPrefab(neighbor.Id);
-                if(prefab != null)
+                if (prefab != null)
                 {
                     neighbor.roomInstance = Instantiate(prefab);
                 }
             }
         }
+
+        if (currentRoom != null)
+        {
+            foreach (var neighbor in currentRoom.Neighbors)
+            {
+                if (neighbor != room && !room.Neighbors.Contains(neighbor) && neighbor.roomInstance)
+                {
+                    Destroy(neighbor.roomInstance);
+                    neighbor.roomInstance = null;
+                }
+            }
+        }
+        currentRoom = room;
     }
 
     private GameObject GetRoomPrefab(int id)
