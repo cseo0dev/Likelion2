@@ -99,7 +99,7 @@ public class EnemyController : MonoBehaviour
             SetState(EEnemyState.Idle);
         }
 
-        if (State != EEnemyState.None)
+        if (State != EEnemyState.Dead && State != EEnemyState.None)
         {
             _states[State].Update();
         }
@@ -108,6 +108,8 @@ public class EnemyController : MonoBehaviour
     public void SetState(EEnemyState state)
     {
         if (State == state) return;
+        if (State == EEnemyState.Dead) return;
+
         if (State != EEnemyState.None) _states[State].Exit();
         State = state;
         if (State != EEnemyState.None) _states[State].Enter();
@@ -270,6 +272,8 @@ public class EnemyController : MonoBehaviour
             enemyRenderer.SetPropertyBlock(propertyBlock);
             yield return null;
         }
+
+        Destroy(gameObject);
     }
     #endregion
 }

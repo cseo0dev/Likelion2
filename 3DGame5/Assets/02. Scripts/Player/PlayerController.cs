@@ -114,6 +114,7 @@ public class PlayerController : MonoBehaviour
     private void OnAnimatorMove()
     {
         if (GameManager.Instance.GameState != EGameState.Play) return;
+        if (State == EPlayerState.None) return;
 
         Vector3 movePosition;
         if (_characterController.isGrounded)
